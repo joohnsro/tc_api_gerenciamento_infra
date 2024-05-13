@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tech-challenge-api-gerenciamento
+  labels:
+    app: tech-challenge-api-gerenciamento
+spec:
+  template:
+    metadata:
+      name: tech-challenge-api-gerenciamento
+      labels:
+        app: tech-challenge-api-gerenciamento
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                    - amd64
+                    - arm64
+      containers:
+      - name: tech-challenge-api-gerenciamento-container
+        image: joohnsro/tc3-api-gerenciamento:latest
+        resources:
+            requests:
+              cpu: 500m
+              memory: 1024Mi
+            limits:
+              cpu: 2000m
+              memory: 2048Mi
+        env:
+          - name: MONGODB_CONNECTION_STRING 
+            valueFrom:
+              configMapKeyRef:
+                name: api-gerenciamento-environment-data
+                key: mongodb_connection_string
+        ports:
+          - containerPort: 80
+        imagePullPolicy: IfNotPresent
+      nodeSelector:
+        kubernetes.io/os: linux
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tech-challenge-api-gerenciamento
