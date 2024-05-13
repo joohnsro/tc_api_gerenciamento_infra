@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: api-gerenciamento-environment-data
 data:
-  mongodb_connection_string: "mongodb+srv://jonathansroliveira:EcIMCTCx1J0RVbYp@db-gerenciamento.qb1rpst.mongodb.net/?retryWrites=true&w=majority&appName=db-gerenciamento"
+  mongodb_connection_string: ""
